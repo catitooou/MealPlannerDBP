@@ -1,16 +1,16 @@
 package com.example.proyecto_mealplanner.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-@AllArgsConstructor
-@NoArgsConstructor
+@Entity
+@Table(name = "favoritos")
 @Getter
 @Setter
-@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+
 public class Favorito {
 
     @Id
@@ -24,5 +24,4 @@ public class Favorito {
     @ManyToOne
     @JoinColumn(name = "receta_id")
     private Receta receta;
-
 }

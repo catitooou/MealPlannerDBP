@@ -1,31 +1,43 @@
 package com.example.proyecto_mealplanner.model;
 
+import com.example.proyecto_mealplanner.enums.Role;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
-@AllArgsConstructor
-@NoArgsConstructor
+@Entity
+@Table(name = "usuarios")
 @Getter
 @Setter
-@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+
 public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idUsuario;
 
+    @Column(nullable = false)
     private String nombre;
+
+    @Column(nullable = false, unique = true)
     private String email;
+
+    @Column(nullable = false)
     private String password;
-    private String fotoPerfil;
-    private String rol;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @OneToMany(mappedBy = "usuario")
     private List<Receta> recetas;
 
+    @OneToMany(mappedBy = "usuario")
+    private List<Favorito> favoritos;
+
+    @OneToMany(mappedBy = "usuario")
+    private List<ListaCompra> listasCompra;
 }

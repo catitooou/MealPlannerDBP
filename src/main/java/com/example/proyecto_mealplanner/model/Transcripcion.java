@@ -1,29 +1,22 @@
 package com.example.proyecto_mealplanner.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-@AllArgsConstructor
-@NoArgsConstructor
+@Entity
+@Table(name = "transcripciones")
 @Getter
 @Setter
-@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+
 public class Transcripcion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idTranscripcion;
 
-    @Column(length = 10000)
-    private String texto;
-
-    private String idioma;
-
-    @OneToOne
-    @JoinColumn(name = "video_id")
-    private Video video;
-
+    @Column(columnDefinition = "TEXT")
+    private String contenido;
 }

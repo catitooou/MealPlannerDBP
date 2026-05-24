@@ -1,41 +1,28 @@
 package com.example.proyecto_mealplanner.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-import java.time.LocalDate;
-import java.util.List;
+import lombok.*;
 
 @Entity
+@Table(name = "listas_compra")
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
+
 public class ListaCompra {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idLista;
 
-    private String nombreLista;
+    @Column(nullable = false)
+    private String nombreIngrediente;
 
-    private LocalDate fechaCreacion;
-
-    private String estado;
+    private Integer cantidad;
 
     @ManyToOne
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
-
-    @ManyToMany
-    @JoinTable(
-            name = "lista_ingrediente",
-            joinColumns = @JoinColumn(name = "lista_id"),
-            inverseJoinColumns = @JoinColumn(name = "ingrediente_id")
-    )
-    private List<Ingrediente> ingredientes;
-
 }

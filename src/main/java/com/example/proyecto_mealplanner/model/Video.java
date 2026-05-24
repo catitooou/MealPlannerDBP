@@ -1,16 +1,17 @@
 package com.example.proyecto_mealplanner.model;
 
+import com.example.proyecto_mealplanner.enums.EstadoVideo;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-@AllArgsConstructor
-@NoArgsConstructor
+@Entity
+@Table(name = "videos")
 @Getter
 @Setter
-@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+
 public class Video {
 
     @Id
@@ -18,11 +19,13 @@ public class Video {
     private Long idVideo;
 
     private String nombreArchivo;
+
     private String urlVideo;
-    private String estadoProcesamiento;
 
-    @ManyToOne
-    @JoinColumn(name = "usuario_id")
-    private Usuario usuario;
+    @Enumerated(EnumType.STRING)
+    private EstadoVideo estado;
 
+    @OneToOne
+    @JoinColumn(name = "transcripcion_id")
+    private Transcripcion transcripcion;
 }
