@@ -8,6 +8,7 @@ import com.example.proyecto_mealplanner.enums.Role;
 import com.example.proyecto_mealplanner.event.UsuarioRegistradoEvent;
 import com.example.proyecto_mealplanner.exception.DuplicateResourceException;
 import com.example.proyecto_mealplanner.repository.UsuarioRepository;
+import com.example.proyecto_mealplanner.security.CustomUserDetailsService;
 import com.example.proyecto_mealplanner.security.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
@@ -26,6 +27,7 @@ public class AuthService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final ApplicationEventPublisher eventPublisher;
+    private final CustomUserDetailsService userDetailsService; // <-- inyectar
 
     public AuthResponseDTO register(RegisterRequestDTO request) {
         if (usuarioRepository.existsByEmail(request.getEmail())) {
@@ -43,8 +45,11 @@ public class AuthService {
         // Publicar evento asíncrono de bienvenida
         eventPublisher.publishEvent(new UsuarioRegistradoEvent(this, saved.getEmail(), saved.getNombre()));
 
-        String token = jwtService.generateToken(user);
-        String refreshToken = jwtService.generateRefreshToken(user);
+        // Obtener UserDetails a partir del usuario recién creado
+        UserDetails userDetails = userDetailsService.loadUserByUsername(saved.getEmail());
+        String token = jwtService.generateToken(userDetails);
+        String refreshToken = jwtService.generateRefreshToken(userDetails);
+
         return AuthResponseDTO.builder()
                 .accessToken(token)
                 .refreshToken(refreshToken)
@@ -58,10 +63,13 @@ public class AuthService {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
         );
+        // Obtener el UserDetails después de autenticar
+        UserDetails userDetails = userDetailsService.loadUserByUsername(request.getEmail());
         Usuario user = usuarioRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-        String token = jwtService.generateToken(user);
-        String refreshToken = jwtService.generateRefreshToken(user);
+        String token = jwtService.generateToken(userDetails);
+        String refreshToken = jwtService.generateRefreshToken(userDetails);
+
         return AuthResponseDTO.builder()
                 .accessToken(token)
                 .refreshToken(refreshToken)

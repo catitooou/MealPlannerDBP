@@ -1,46 +1,67 @@
 package com.example.proyecto_mealplanner.repository;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
-import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
+import com.example.proyecto_mealplanner.entity.Receta;
+import com.example.proyecto_mealplanner.entity.Usuario;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import java.util.List;
+import java.util.Optional;
 
-@DataJpaTest
-@Testcontainers
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class RecetaRepositoryTest {
+@Repository
+public interface RecetaRepository extends JpaRepository<Receta, Long> {
 
-    @Container
-    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:15")
-            .withDatabaseName("testdb")
-            .withUsername("test")
-            .withPassword("test");
+    // -----------------------------------------------------------------
+    // Métodos básicos derivados por nomenclatura
+    // -----------------------------------------------------------------
 
-    @DynamicPropertySource
-    static void properties(DynamicPropertyRegistry registry) {
-        registry.add("spring.datasource.url", postgres::getJdbcUrl);
-        registry.add("spring.datasource.username", postgres::getUsername);
-        registry.add("spring.datasource.password", postgres::getPassword);
-    }
+    /**
+     * Busca recetas públicas con paginación.
+     */
+    Page<Receta> findByPublicaTrue(Pageable pageable);
 
-    @Autowired
-    private RecetaRepository recetaRepository;
+    /**
+     * Busca recetas de un usuario específico.
+     */
+    Page<Receta> findByUsuario(Usuario usuario, Pageable pageable);
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+    /**
+     * Busca recetas públicas que contengan una palabra en el título.
+     */
+    Page<Receta> findByPublicaTrueAndTituloContainingIgnoreCase(String titulo, Pageable pageable);
 
-    @Test
-    void shouldSaveAndFindReceta() {
-        com.example.proyecto_mealplanner.entity.UsuarioMapper user = usuarioRepository.save(com.example.proyecto_mealplanner.entity.UsuarioMapper.builder().nombre("Test").email("test@test.com").password("pass").build());
-        com.example.proyecto_mealplanner.entity.RecetaMapper recetaMapper = com.example.proyecto_mealplanner.entity.RecetaMapper.builder().titulo("Pasta").usuario(user).build();
-        com.example.proyecto_mealplanner.entity.RecetaMapper saved = recetaRepository.save(recetaMapper);
-        assertThat(recetaRepository.findById(saved.getIdReceta())).isPresent();
-    }
+    /**
+     * Obtiene todas las recetas favoritas de un usuario (usando la tabla favoritos).
+     */
+    @Query("SELECT r FROM Receta r WHERE r.idReceta IN (SELECT f.receta.idReceta FROM Favorito f WHERE f.usuario = :usuario)")
+    Page<Receta> findFavoritasByUsuario(@Param("usuario") Usuario usuario, Pageable pageable);
+
+    /**
+     * Verifica si una receta pertenece a un usuario (para autorización).
+     */
+    boolean existsByIdRecetaAndUsuario(Long idReceta, Usuario usuario);
+
+    /**
+     * Busca recetas por una lista de IDs (para generar listas de compra o sugerencias).
+     */
+    List<Receta> findByIdRecetaIn(List<Long> ids);
+
+    // -----------------------------------------------------------------
+    // Métodos útiles adicionales
+    // -----------------------------------------------------------------
+
+    /**
+     * Obtiene una receta junto con sus pasos e ingredientes (evita N+1).
+     * Se puede usar con @EntityGraph en el servicio si se prefiere.
+     */
+    @Query("SELECT DISTINCT r FROM Receta r " +
+            "LEFT JOIN FETCH r.pasos " +
+            "LEFT JOIN FETCH r.recetaIngredientes ri " +
+            "LEFT JOIN FETCH ri.ingrediente " +
+            "WHERE r.idReceta = :id")
+    Optional<Receta> findByIdWithDetails(@Param("id") Long id);
 }

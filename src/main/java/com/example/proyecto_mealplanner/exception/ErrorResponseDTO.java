@@ -1,24 +1,20 @@
 package com.example.proyecto_mealplanner.exception;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
+@Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-
 public class ErrorResponseDTO {
-
     private LocalDateTime timestamp;
-
-    private Integer status;
-
+    private int status;
     private String error;
-
     private String message;
-
     private String path;
 }
