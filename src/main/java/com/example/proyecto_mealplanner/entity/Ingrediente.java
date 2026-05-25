@@ -1,9 +1,8 @@
-package com.example.proyecto_mealplanner.model;
+package com.example.proyecto_mealplanner.entity;
 
 import com.example.proyecto_mealplanner.enums.CategoriaIngrediente;
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.util.List;
 
 @Entity
@@ -13,14 +12,13 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-
 public class Ingrediente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idIngrediente;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String nombre;
 
     @Enumerated(EnumType.STRING)

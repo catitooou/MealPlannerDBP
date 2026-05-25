@@ -3,24 +3,20 @@ package com.example.proyecto_mealplanner.dto.request;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import lombok.*;
-
-@Getter
-@Setter
+@Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-
 public class RegisterRequestDTO {
-
-    @NotBlank
+    @NotBlank @Size(min = 2, max = 100)
     private String nombre;
-
-    @Email
-    @NotBlank
+    @NotBlank @Email
     private String email;
-
-    @Size(min = 6)
+    @NotBlank @Size(min = 6)
     private String password;
 }

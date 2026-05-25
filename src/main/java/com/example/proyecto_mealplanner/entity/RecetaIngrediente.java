@@ -1,5 +1,6 @@
-package com.example.proyecto_mealplanner.model;
+package com.example.proyecto_mealplanner.entity;
 
+import com.example.proyecto_mealplanner.enums.UnidadMedida;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,7 +11,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-
 public class RecetaIngrediente {
 
     @Id
@@ -19,13 +19,14 @@ public class RecetaIngrediente {
 
     private Double cantidad;
 
-    private String unidad;
+    @Enumerated(EnumType.STRING)
+    private UnidadMedida unidad;
 
     @ManyToOne
-    @JoinColumn(name = "receta_id")
+    @JoinColumn(name = "receta_id", nullable = false)
     private Receta receta;
 
     @ManyToOne
-    @JoinColumn(name = "ingrediente_id")
+    @JoinColumn(name = "ingrediente_id", nullable = false)
     private Ingrediente ingrediente;
 }

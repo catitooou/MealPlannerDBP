@@ -1,16 +1,18 @@
 package com.example.proyecto_mealplanner.dto.response;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Getter
-@Setter
+@Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-
 public class AuthResponseDTO {
-
-    private String token;
-
-    private String mensaje;
+    private String accessToken;
+    private String refreshToken;
+    private Long userId;
+    private String email;
+    private String role;
 }

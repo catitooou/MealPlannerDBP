@@ -2,7 +2,7 @@ package com.example.proyecto_mealplanner.service;
 
 import com.example.proyecto_mealplanner.dto.request.ListaCompraRequestDTO;
 import com.example.proyecto_mealplanner.dto.response.ListaCompraResponseDTO;
-import com.example.proyecto_mealplanner.model.ListaCompra;
+import com.example.proyecto_mealplanner.mapper.ListaCompra;
 import com.example.proyecto_mealplanner.repository.ListaCompraRepository;
 
 import lombok.RequiredArgsConstructor;

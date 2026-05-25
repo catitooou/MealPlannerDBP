@@ -1,21 +1,17 @@
 package com.example.proyecto_mealplanner.dto.request;
 
-import com.example.proyecto_mealplanner.enums.CategoriaIngrediente;
-
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import lombok.*;
-
-@Getter
-@Setter
+@Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-
 public class IngredienteRequestDTO {
-
     @NotBlank
     private String nombre;
-
-    private CategoriaIngrediente categoria;
+    private String categoria; // PROTEINA, CARBOHIDRATO, etc.
 }

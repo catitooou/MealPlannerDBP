@@ -1,4 +1,4 @@
-package com.example.proyecto_mealplanner.model;
+package com.example.proyecto_mealplanner.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -10,7 +10,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-
 public class Transcripcion {
 
     @Id

@@ -2,21 +2,18 @@ package com.example.proyecto_mealplanner.dto.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import lombok.*;
-
-@Getter
-@Setter
+@Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-
 public class LoginRequestDTO {
-
-    @Email
-    @NotBlank
+    @NotBlank @Email
     private String email;
-
     @NotBlank
     private String password;
 }

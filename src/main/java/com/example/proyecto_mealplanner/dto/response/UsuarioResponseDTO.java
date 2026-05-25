@@ -1,18 +1,20 @@
 package com.example.proyecto_mealplanner.dto.response;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import java.time.LocalDateTime;
 
-@Getter
-@Setter
+@Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-
 public class UsuarioResponseDTO {
-
     private Long idUsuario;
-
     private String nombre;
-
     private String email;
+    private String role;
+    private boolean active;
+    private LocalDateTime createdAt;
 }

@@ -1,16 +1,15 @@
 package com.example.proyecto_mealplanner.dto.response;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Getter
-@Setter
+@Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-
 public class TranscripcionResponseDTO {
-
     private Long idTranscripcion;
-
     private String contenido;
 }

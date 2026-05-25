@@ -3,7 +3,7 @@ package com.example.proyecto_mealplanner.service;
 import com.example.proyecto_mealplanner.dto.request.VideoRequestDTO;
 import com.example.proyecto_mealplanner.dto.response.VideoResponseDTO;
 import com.example.proyecto_mealplanner.enums.EstadoVideo;
-import com.example.proyecto_mealplanner.model.Video;
+import com.example.proyecto_mealplanner.mapper.Video;
 import com.example.proyecto_mealplanner.repository.VideoRepository;
 
 import lombok.RequiredArgsConstructor;

@@ -1,14 +1,16 @@
 package com.example.proyecto_mealplanner.dto.request;
 
-import lombok.*;
+import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Getter
-@Setter
+@Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-
 public class TranscripcionRequestDTO {
-
+    @NotBlank
     private String contenido;
 }

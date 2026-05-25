@@ -1,6 +1,6 @@
 package com.example.proyecto_mealplanner.repository;
 
-import com.example.proyecto_mealplanner.model.Usuario;
+import com.example.proyecto_mealplanner.mapper.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

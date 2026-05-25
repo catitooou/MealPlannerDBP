@@ -2,7 +2,7 @@ package com.example.proyecto_mealplanner.service;
 
 import com.example.proyecto_mealplanner.dto.response.UsuarioResponseDTO;
 import com.example.proyecto_mealplanner.exception.ResourceNotFoundException;
-import com.example.proyecto_mealplanner.model.Usuario;
+import com.example.proyecto_mealplanner.mapper.Usuario;
 import com.example.proyecto_mealplanner.repository.UsuarioRepository;
 
 import lombok.RequiredArgsConstructor;

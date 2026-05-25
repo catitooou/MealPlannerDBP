@@ -1,20 +1,19 @@
 package com.example.proyecto_mealplanner.dto.response;
 
-import com.example.proyecto_mealplanner.enums.EstadoVideo;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import lombok.*;
-
-@Getter
-@Setter
+@Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-
 public class VideoResponseDTO {
-
     private Long idVideo;
-
     private String nombreArchivo;
-
-    private EstadoVideo estado;
+    private String urlS3;
+    private String estado;
+    private Long transcripcionId;
+    private Long recetaGeneradaId;
 }
